@@ -1,2 +1,2 @@
-# Data Set for Modbus/RS-485 Industrial Control Network Security Research
+# Modbus/RS-485 Industrial Control Network Security (Data Set)
 
