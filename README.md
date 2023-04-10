@@ -2,7 +2,16 @@
 
 ![Architecture](architecture.png)
 
-Description 
+Monitoring of the current flow on RS-485 line “A” by attaching a current transformer (CT). We generate Data Set 1 by attaching a CT between the Client and Attacker, and Data Set 2 by attaching it at the far end. Here, RS-485 multi-drop serial-bus network exchanges messages on two electronically common lines called “A” and “B” with differential voltage signals[1].
+
+## Overview
+
+RS-485 connects multiple devices with lines “A” and “B”, which usually come with a twisted-pair cable. A device in the network transmits a binary bit “0” or “1” with differential signaling. For example, “0” is modulated with (LOW, HIGH) for (A, B), whereas it is (HIGH, LOW) for “1”. With start and stop bits, this allows serial communication among the nodes on the network with a baud rate such as 9600bps. Communication lines A and B are physically shared among all the devices on the RS-485 network. Thus, all the devices sense the same voltage level, meaning that sequences of data are always broadcasted. Upper-layer protocols such as Modbus, BACnet, and Profibus define who to receive the payload and who to respond to the message. The Modbus protocol used in our experiment is also a de-facto standard on multi-drop serial buses and is used worldwide in building automation, factory automation, and many other fields. Typically, they assume multiple end devices, which act as a “Server,” and a single control device, which acts as a “Client”. When the client transmits a request to the RS-485 network (such as “I want to read two bytes from the register of address 20H on Server 01H”), all servers receive the request, but only the corresponding server (in this case, Server 01H) transmits the response to the RS-485 network. Here, “H” indicates a hexadecimal value. Similarly, this response is received by all the devices, but only the client reads its payload. 
+
+To detect these attacks, our approach to monitoring RS-485 lines is to capture the “analog values” of the current flow of RS-485 line “A” or “B” by using a current transformer (CT) as depicted in the Figure. As RS-485 has 120Ω termination resistors at both ends of the bus, if the voltage between line “A” and “B” becomes 3V, about 25mA current shall flow on the line. Then, for example, with a winding rate of 1:3000 for CT, and a 30kΩ burden resistor between CT output pins, we get 250mV between the terminals of the burden resistor. By using a 10-bit A/D converter (the value range is from 0 to 1023) with a 3.3V reference voltage, this 250mV is observed as a difference of about 80. To clearly capture the waveform in the case of 9600bps, we recommend 30kHz for the sampling rate of the A/D converter. 
+
+There are several choices regarding the attachment of CT. It can be attached to line “B” instead of “A”. The direction of CT (shown by k→l in the figure) can be also reversed. It can be attached around the Client or at the far end of the network. In this study, we consider two monitoring cases for simplicity. The one is to attach a CT near the Client and the other is to attach a CT at the far end as the figure. We call Data Set 1 (DS1 for short) for the collected data with the former configuration and Data Set 2 (DS2) with the latter configuration.
+
 
 ## DataSet Files
  1. 0101-ct_m-s1_at_s2.csv
@@ -41,23 +50,23 @@ Description
 
 ## Explanations of Each Attack Scenario
 
-* DataSet of Spoofing Attack (XX Code: 01)
+* Spoofing Attack (XX=01)
 
 An attacker transmits jamming signals on the communication line after reading the first four bytes of a request from the Client. Here, the first four bytes contain the Server ID and register address, and the attacker can identify the spoofing target. The jamming signals break the later part of the request frame including the CRC16 checksum area. Then, the legitimate server just considers that it has received a broken message and does nothing. Instead, the attacker transmits its spoofed response message as the legitimate Server.
 
-* DataSet of Random Collision Attack (XX Code: 02)
+* Random Collision Attack (XX=02)
 
 An attacker transmits jamming signals on the communication line at random when it observes a legitimate signal on the line. This destroys the request frames from the Client, and the communication between the Client and the Server would be denied.
 
-* DataSet of Horizontal Scan Attack (XX Code 03)
+* Horizontal Scan Attack (XX=03)
 
 An attacker requests Servers on the network by changing the Server ID from ID=01H to 7FH, expecting some form of response, including an error response, from the specified Server if it exists.
 
-* DataSet of Vertical Scan Attack (XX Code 04)
+* Vertical Scan Attack (XX=04)
 
 An attacker requests to read from a wider range of register addresses instead of a smaller set of register addresses one by one. The purpose of this attack is to explore data – which are usually not used in system operation and are not exchanged on the communication line but still exist on the Server. 
 
-* DataSet of Evil Twin Attack (XX Code: 05)
+* Evil Twin Attack (XX=05)
 
 An attacker sends requests on behalf of the legitimate Client. The requests are identical to those of the legitimate Client. However, accepting and responding to the attacker’s requests should be avoided, and these kinds of anomalous requests should be detected.
 
@@ -65,7 +74,7 @@ An attacker sends requests on behalf of the legitimate Client. The requests are 
 
 Please cite the first paper (i.e., [1]) when you publish your research with this dataset.
 
-[1] Hideya Ochiai , Md Delwar Hossain, Pawissakan Chirupphapa, Youki Kadobayashi, Hiroshi Esaki, "Modbus/RS-485 Attack Detection on Communication Signals with Machine Learning", (to be announced), 2023.
+[1] Hideya Ochiai , Md Delwar Hossain, Pawissakan Chirupphapa, Youki Kadobayashi, Hiroshi Esaki, "Modbus/RS-485 Attack Detection on Communication Signals with Machine Learning", IEEE Communications Magazine, 2023 (to be announced).
 
 [2] Pawissakan Chirupphapa, Md Delwar Hossain, Hiroshi Esaki, and Hideya Ochiai, "Unsupervised Anomaly Detection in RS-485 Traffic using Autoencoders with Unobtrusive Measurement", IEEE International Performance, Computing, and Communications Conference (IPCCC), 2022.
 
