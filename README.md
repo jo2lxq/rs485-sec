@@ -31,39 +31,42 @@ Description
   02: DataSet 2  (Monitoring at the far end)  
   
  ## A-B: CT's connection point, one of {m-s1, s1-s2, s2-s3, s3-s4}
-  If DataSet 1, "A-B" is "m-s1".
+  If DataSet 1, "A-B" is "m-s1".  
   If DataSet 2, "A-B" is "s3-s4".
   
  ## C: Attack point, one of {m, s1, s2, s3, s4}
   If "C"="s2", the attacker is located at Server ID=2
 
-## DataSet Format
-
-
+## Data Format
 
 ## Explanations of Each Attack Scenario
 
-
 * DataSet of Spoofing Attack (XX Code: 01)
 
-  Spoofing happens when an attacker reads the first 4 request bytes and makes a collision, and replies a spoofed message on behalf of the true slave.  This dataset contains the observation of the request frames.
+An attacker transmits jamming signals on the communication line after reading the first four bytes of a request from the Client. Here, the first four bytes contain the Server ID and register address, and the attacker can identify the spoofing target. The jamming signals break the later part of the request frame including the CRC16 checksum area. Then, the legitimate server just considers that it has received a broken message and does nothing. Instead, the attacker transmits its spoofed response message as the legitimate Server.
 
-* DataSet of Simple Random Collision Attack (XX Code: 02)
+* DataSet of Random Collision Attack (XX Code: 02)
 
-  Collision Attack happens when an attacker overrides the frame sent by someone.
+An attacker transmits jamming signals on the communication line at random when it observes a legitimate signal on the line. This destroys the request frames from the Client, and the communication between the Client and the Server would be denied.
 
 * DataSet of Horizontal Scan Attack (XX Code 03)
 
-  Horizontal Scan happens when an attacker accesses wide-range of the devices in a network. 
+An attacker requests Servers on the network by changing the Server ID from ID=01H to 7FH, expecting some form of response, including an error response, from the specified Server if it exists.
 
 * DataSet of Vertical Scan Attack (XX Code 04)
 
-  Vertical Scan happens when an attacker accesses wide-range of the registers of a device.
+An attacker requests to read from a wider range of register addresses instead of a smaller set of register addresses one by one. The purpose of this attack is to explore data – which are usually not used in system operation and are not exchanged on the communication line but still exist on the Server. 
 
 * DataSet of Evil Twin Attack (XX Code: 05)
 
-  Evil Twin happens when an attacker sends a request, and overrides the previous request.
+An attacker sends requests on behalf of the legitimate Client. The requests are identical to those of the legitimate Client. However, accepting and responding to the attacker’s requests should be avoided, and these kinds of anomalous requests should be detected.
 
-## Cite the following paper
+## References
 
-*
+Please cite the first paper (i.e., [1]) when you publish your research with this dataset.
+
+[1] Hideya Ochiai , Md Delwar Hossain, Pawissakan Chirupphapa, Youki Kadobayashi, Hiroshi Esaki, "Modbus/RS-485 Attack Detection on Communication Signals with Machine Learning", (to be announced), 2023.
+
+[2] Pawissakan Chirupphapa, Md Delwar Hossain, Hiroshi Esaki, and Hideya Ochiai, "Unsupervised Anomaly Detection in RS-485 Traffic using Autoencoders with Unobtrusive Measurement", IEEE International Performance, Computing, and Communications Conference (IPCCC), 2022.
+
+[3] Md Delwar Hossain, Hideya Ochiai, Tatsuya Arisawa, Youki Kadobayashi, "Smart Meter RS-485 Spoofing Attack Detection by LSTM Deep Learning Approach", IEEE Swiss Conference on Data Science (SDS), 2022.
