@@ -2,7 +2,7 @@
 
 ![Architecture](architecture.png)
 
-Monitoring of the current flow on RS-485 line “A” by attaching a current transformer (CT). We generate Data Set 1 by attaching a CT between the Client and Attacker, and Data Set 2 by attaching it at the far end. Here, RS-485 multi-drop serial-bus network exchanges messages on two electronically common lines called “A” and “B” with differential voltage signals[1].
+Figure: Monitoring of the current flow on RS-485 line “A” by attaching a current transformer (CT). We generate Data Set 1 by attaching a CT between the Client and Attacker, and Data Set 2 by attaching it at the far end. Here, RS-485 multi-drop serial-bus network exchanges messages on two electronically common lines called “A” and “B” with differential voltage signals[1].
 
 ## Overview
 
