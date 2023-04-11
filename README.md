@@ -48,6 +48,14 @@ There are several choices regarding the attachment of CT. It can be attached to 
 
 ## Data Format
 
+Each row of the CSV file is formatted as follows:
+
+| seq_id | x<sub>0</sub> | x<sub>1</sub> | ... | x<sub>382</sub> | label |
+| ---- |  ---- |  ---- |  ---- |  ---- |  ---- | 
+| 0 |  512 |  511 |  ... |  502 |  0 | 
+| 1 |  511 |  512 |  ... |  508 |  1 | 
+
+
 ## Explanations of Each Attack Scenario
 
 * Spoofing Attack (XX=01)
