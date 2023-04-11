@@ -84,7 +84,7 @@ An attacker sends requests on behalf of the legitimate Client. The requests are 
 
 Please cite the first paper (i.e., [1]) when you publish your research with this dataset.
 
-[1] Hideya Ochiai , Md Delwar Hossain, Pawissakan Chirupphapa, Youki Kadobayashi, Hiroshi Esaki, "Modbus/RS-485 Attack Detection on Communication Signals with Machine Learning", IEEE Communications Magazine, 2023 (to be announced).
+[1] Hideya Ochiai , Md Delwar Hossain, Pawissakan Chirupphapa, Youki Kadobayashi, Hiroshi Esaki, "Modbus/RS-485 Attack Detection on Communication Signals with Machine Learning", IEEE Communications Magazine, 2023 (accepted, in press).
 
 [2] Pawissakan Chirupphapa, Md Delwar Hossain, Hiroshi Esaki, and Hideya Ochiai, "Unsupervised Anomaly Detection in RS-485 Traffic using Autoencoders with Unobtrusive Measurement", IEEE International Performance, Computing, and Communications Conference (IPCCC), 2022.
 
